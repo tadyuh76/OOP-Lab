@@ -1,0 +1,14 @@
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\bin\Debug\net8.0\lab_05.exe
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\bin\Debug\net8.0\lab_05.deps.json
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\bin\Debug\net8.0\lab_05.runtimeconfig.json
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\bin\Debug\net8.0\lab_05.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\bin\Debug\net8.0\lab_05.pdb
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.AssemblyInfoInputs.cache
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.AssemblyInfo.cs
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\refint\lab_05.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.pdb
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\lab_05.genruntimeconfig.cache
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_05\lab_05\obj\Debug\net8.0\ref\lab_05.dll

@@ -1,0 +1,14 @@
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.AssemblyInfoInputs.cache
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.AssemblyInfo.cs
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\bin\Debug\net8.0\OOP_lab_2.exe
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\bin\Debug\net8.0\OOP_lab_2.deps.json
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\bin\Debug\net8.0\OOP_lab_2.runtimeconfig.json
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\bin\Debug\net8.0\OOP_lab_2.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\bin\Debug\net8.0\OOP_lab_2.pdb
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\refint\OOP_lab_2.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.pdb
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\OOP_lab_2.genruntimeconfig.cache
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\OOP_lab_2\OOP_lab_2\obj\Debug\net8.0\ref\OOP_lab_2.dll

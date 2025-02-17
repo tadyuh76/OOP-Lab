@@ -1,0 +1,45 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Admin\\Data\\Coding Projects\\C \u0026 C\u002B\u002B \u0026 C#\\OOP\\OOP_lab_2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{65D3C46D-1D2B-4824-9F6A-DAC44EB62B17}|OOP_lab_2\\OOP_lab_2.csproj|c:\\users\\admin\\data\\coding projects\\c \u0026 c\u002B\u002B \u0026 c#\\oop\\oop_lab_2\\oop_lab_2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{65D3C46D-1D2B-4824-9F6A-DAC44EB62B17}|OOP_lab_2\\OOP_lab_2.csproj|solutionrelative:oop_lab_2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Data\\Coding Projects\\C \u0026 C\u002B\u002B \u0026 C#\\OOP\\OOP_lab_2\\OOP_lab_2\\Program.cs",
+              "RelativeDocumentMoniker": "OOP_lab_2\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\Data\\Coding Projects\\C \u0026 C\u002B\u002B \u0026 C#\\OOP\\OOP_lab_2\\OOP_lab_2\\Program.cs",
+              "RelativeToolTip": "OOP_lab_2\\Program.cs",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAMwFwAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-17T14:11:35.583Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

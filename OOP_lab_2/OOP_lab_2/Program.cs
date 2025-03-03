@@ -95,7 +95,7 @@ namespace OOP_lab_2
             };
 
             // In thông tin của tất cả vector
-            foreach (var v in vectors)
+            foreach (Vector2D v in vectors)
             {
                 v.Print();
             }
@@ -115,7 +115,7 @@ namespace OOP_lab_2
 
             // Tính độ dài các vector
             Console.WriteLine("\nĐộ dài của các vector:");
-            foreach (var v in vectors)
+            foreach (Vector2D v in vectors)
             {
                 Console.WriteLine($"Vector ({v.X}, {v.Y}) có độ dài: {v.GetLength()}");
             }
@@ -128,10 +128,13 @@ namespace OOP_lab_2
                 {
 
                     double angle = vectors[i].AngleBetween(vectors[j]);
-                    if (angle == -1) {
-                        Console.WriteLine("Không thể tính góc giữa 2 vector");
-                    }    
-                    Console.WriteLine($"Góc giữa Vector {i} và Vector {j}: {angle} rad");
+                    if (angle == -1)
+                    {
+                        Console.WriteLine($"Không thể tính góc giữa 2 vector {i} và {j}.");
+                    }
+                    else { 
+                        Console.WriteLine($"Góc giữa Vector {i} và Vector {j}: {angle} rad");
+                    }
                    
                 }
             }

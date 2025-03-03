@@ -36,7 +36,19 @@ namespace lab_04
 
     class Vector2D : AVector
     {
-        public float x, y;
+        private float x, y;
+
+        public float X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+
+        public float Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
 
         public Vector2D(float x, float y)
         {
@@ -46,19 +58,19 @@ namespace lab_04
 
         public override void ShowInfo()
         {
-            Console.WriteLine($"Vector2D: ({x}, {y})");
+            Console.WriteLine($"Vector2D: ({X}, {Y})");
         }
 
         public override AVector Add(AVector v)
         {
             Vector2D vec = (Vector2D)v;
-            return new Vector2D(x + vec.x, y + vec.y);
+            return new Vector2D(X + vec.X, Y + vec.Y);
         }
 
         public override AVector Sub(AVector v)
         {
             Vector2D vec = (Vector2D)v;
-            return new Vector2D(x - vec.x, y - vec.y);
+            return new Vector2D(X - vec.X, Y - vec.Y);
         }
 
         public override AVector Mul(AVector v)
@@ -69,18 +81,18 @@ namespace lab_04
         public override AVector Div(float scalar)
         {
             if (scalar == 0) throw new DivideByZeroException("Không thể chia cho 0!");
-            return new Vector2D(x / scalar, y / scalar);
+            return new Vector2D(X / scalar, Y / scalar);
         }
 
         public override float Dot(AVector v)
         {
             Vector2D vec = (Vector2D)v;
-            return x * vec.x + y * vec.y;
+            return X * vec.X + Y * vec.Y;
         }
 
         public override float Module()
         {
-            return (float)Math.Sqrt(x * x + y * y);
+            return (float)Math.Sqrt(X * X + Y * Y);
         }
 
         public override float Angle(AVector v)
@@ -89,13 +101,33 @@ namespace lab_04
             float dotProduct = Dot(vec);
             float mod1 = Module();
             float mod2 = vec.Module();
+            if (mod1 == 0 || mod2 == 0) throw new InvalidOperationException("Không thể tính góc với vector không");
             return (float)Math.Acos(dotProduct / (mod1 * mod2));
         }
     }
 
     class Vector3D : AVector
     {
-        public float x, y, z;
+        private float x, y, z;
+
+        public float X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+
+        public float Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+
+        public float Z
+        {
+            get { return z; }
+            set { z = value; }
+        }
+
 
         public Vector3D(float x, float y, float z)
         {
@@ -106,45 +138,45 @@ namespace lab_04
 
         public override void ShowInfo()
         {
-            Console.WriteLine($"Vector3D: ({x}, {y}, {z})");
+            Console.WriteLine($"Vector3D: ({X}, {Y}, {Z})");
         }
 
         public override AVector Add(AVector v)
         {
             Vector3D vec = (Vector3D)v;
-            return new Vector3D(x + vec.x, y + vec.y, z + vec.z);
+            return new Vector3D(X + vec.X, Y + vec.Y, Z + vec.Z);
         }
 
         public override AVector Sub(AVector v)
         {
             Vector3D vec = (Vector3D)v;
-            return new Vector3D(x - vec.x, y - vec.y, z - vec.z);
+            return new Vector3D(X - vec.X, Y - vec.Y, Z - vec.Z);
         }
 
         public override AVector Mul(AVector v)
         {
             Vector3D vec = (Vector3D)v;
-            float cx = y * vec.z - z * vec.y;
-            float cy = z * vec.x - x * vec.z;
-            float cz = x * vec.y - y * vec.x;
+            float cx = Y * vec.Z - Z * vec.Y;
+            float cy = Z * vec.X - X * vec.Z;
+            float cz = X * vec.Y - Y * vec.X;
             return new Vector3D(cx, cy, cz);
         }
 
         public override AVector Div(float scalar)
         {
             if (scalar == 0) throw new DivideByZeroException("Không thể chia cho 0!");
-            return new Vector3D(x / scalar, y / scalar, z / scalar);
+            return new Vector3D(X / scalar, Y / scalar, Z / scalar);
         }
 
         public override float Dot(AVector v)
         {
             Vector3D vec = (Vector3D)v;
-            return x * vec.x + y * vec.y + z * vec.z;
+            return X * vec.X + Y * vec.Y + Z * vec.Z;
         }
 
         public override float Module()
         {
-            return (float)Math.Sqrt(x * x + y * y + z * z);
+            return (float)Math.Sqrt(X * X + Y * Y + Z * Z);
         }
 
         public override float Angle(AVector v)
@@ -153,6 +185,7 @@ namespace lab_04
             float dotProduct = Dot(vec);
             float mod1 = Module();
             float mod2 = vec.Module();
+            if (mod1 == 0 || mod2 == 0) throw new InvalidOperationException("Không thể tính góc với vector không");
             return (float)Math.Acos(dotProduct / (mod1 * mod2));
         }
     }
@@ -183,33 +216,103 @@ namespace lab_04
             Vector3D v4 = (Vector3D)vectors[3];
 
             Console.WriteLine("Toán tử trên v1 và v2:");
-            Console.WriteLine($"- Dot: {v1.Dot(v2)}");
-            Console.WriteLine($"- Angle: {v1.Angle(v2)} rad");
+            try
+            {
+                Console.WriteLine($"- Dot: {v1.Dot(v3)}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            try
+            {
+                Console.WriteLine($"- Angle: {v1.Angle(v2)} rad");
+            }
+            catch (Exception e) 
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine($"- v1 Module: {v1.Module()}");
             Console.WriteLine($"- v2 Module: {v2.Module()}");
             Console.WriteLine("Add:");
-            v1.Add(v2).ShowInfo();
+            try
+            {
+                v1.Add(v2).ShowInfo();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine("Sub:");
-            v1.Sub(v2).ShowInfo();
-            Console.WriteLine("Mul:");  
-            v1.Mul(v2).ShowInfo();
+            try
+            {
+                v1.Sub(v3).ShowInfo();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Console.WriteLine("Mul:");
+            try
+            {
+                v1.Mul(v2).ShowInfo();
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine("Div:");
             v1.Div(2).ShowInfo();
 
+
+
             Console.WriteLine("\nToán tử trên v3 và v4:");
-            Console.WriteLine($"- Dot: {v3.Dot(v4)}");
-            Console.WriteLine($"- Angle: {v3.Angle(v4)} rad");
+            try
+            {
+                Console.WriteLine($"- Dot: {v3.Dot(v4)}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            try
+            {
+                Console.WriteLine($"- Angle: {v3.Angle(v4)} rad");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine($"- v3 Module: {v3.Module()}");
             Console.WriteLine($"- v4 Module: {v4.Module()}");
             Console.WriteLine("Add:");
-            v3.Add(v4).ShowInfo();
+            try
+            {
+                v3.Add(v1).ShowInfo();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine("Sub:");
-            v3.Sub(v4).ShowInfo();
+            try
+            {
+                v3.Sub(v4).ShowInfo();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine("Mul:");
-            v3.Mul(v4).ShowInfo();
+            try
+            {
+                v3.Mul(v2).ShowInfo();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             Console.WriteLine("Div:");
             v3.Div(2).ShowInfo();
         }
     }
-
 }

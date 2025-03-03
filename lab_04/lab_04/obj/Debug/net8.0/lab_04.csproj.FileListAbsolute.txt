@@ -12,3 +12,4 @@ C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_04\lab_04\obj\Debug\net
 C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_04\lab_04\obj\Debug\net8.0\lab_04.pdb
 C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_04\lab_04\obj\Debug\net8.0\lab_04.genruntimeconfig.cache
 C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_04\lab_04\obj\Debug\net8.0\ref\lab_04.dll
+C:\Users\Admin\Data\Coding Projects\C & C++ & C#\OOP\lab_04\lab_04\obj\Debug\net8.0\lab_04.sourcelink.json

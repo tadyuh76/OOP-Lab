@@ -2,22 +2,6 @@
 
 namespace OOP_lab_3
 {
-    /*
-    LAB 03: Lớp số phức
-    Một lớp số phức gồm có 2 thuộc tính: phần thực (real) và phần ảo (imaginary).
-    Hãy khai báo một lớp số phức với các yêu cầu sau:
-    - Có 2 phương thức getter và setter cho mỗi field
-    - Có 3 dạng constructor: không tham số, có 2 tham số và copy constructor
-    - Khai báo các phép toán cộng, trừ, nhân, chia 2 số phức    
-    - Khai báo phương thức tính module của số phức
-    - Khai báo phương thức tính argument của số phức
-    - Khai báo phương thức cộng số phức với một số thực, sử dụng default params (tối đa 3 số thực)
-    - Khai báo phương thức cộng nhiều số phức, sử dụng rest params
-    (Lưu ý: phương thức cộng 2 số phức và phương thức cộng số phức với một số thực và phương thức cộng các số phức phải
-    sử dụng method overloading.)
-    Hàm Main: test thử các phương thức nói trên. Lưu ý: tạo một mảng các số phức để thực thi kết quả.
-    */
-
     class ComplexNumber
     {
         private double real;
@@ -57,39 +41,39 @@ namespace OOP_lab_3
             set { imaginary = value; }
         }
 
-        // Phép cộng hai số phức
-        public static ComplexNumber operator +(ComplexNumber a, ComplexNumber b)
+        // Phương thức cộng hai số phức
+        public ComplexNumber Add(ComplexNumber other)
         {
-            return new ComplexNumber(a.real + b.real, a.imaginary + b.imaginary);
+            return new ComplexNumber(real + other.real, imaginary + other.imaginary);
         }
 
-        // Phép trừ hai số phức
-        public static ComplexNumber operator -(ComplexNumber a, ComplexNumber b)
+        // Phương thức trừ hai số phức
+        public ComplexNumber Subtract(ComplexNumber other)
         {
-            return new ComplexNumber(a.real - b.real, a.imaginary - b.imaginary);
+            return new ComplexNumber(real - other.real, imaginary - other.imaginary);
         }
 
-        // Phép nhân hai số phức
-        public static ComplexNumber operator *(ComplexNumber a, ComplexNumber b)
+        // Phương thức nhân hai số phức
+        public ComplexNumber Multiply(ComplexNumber other)
         {
             return new ComplexNumber(
-                a.real * b.real - a.imaginary * b.imaginary,
-                a.real * b.imaginary + a.imaginary * b.real
+                real * other.real - imaginary * other.imaginary,
+                real * other.imaginary + imaginary * other.real
             );
         }
 
-        // Phép chia hai số phức
-        public static ComplexNumber operator /(ComplexNumber a, ComplexNumber b)
+        // Phương thức chia hai số phức
+        public ComplexNumber Divide(ComplexNumber other)
         {
-            double denominator = b.real * b.real + b.imaginary * b.imaginary;
+            double denominator = other.real * other.real + other.imaginary * other.imaginary;
             return new ComplexNumber(
-                (a.real * b.real + a.imaginary * b.imaginary) / denominator,
-                (a.imaginary * b.real - a.real * b.imaginary) / denominator
+                (real * other.real + imaginary * other.imaginary) / denominator,
+                (imaginary * other.real - real * other.imaginary) / denominator
             );
         }
 
         // Tính module của số phức
-        public double Magnitude()
+        public double Module()
         {
             return Math.Sqrt(real * real + imaginary * imaginary);
         }
@@ -110,7 +94,7 @@ namespace OOP_lab_3
         public static ComplexNumber AddMultiple(params ComplexNumber[] numbers)
         {
             double sumReal = 0, sumImaginary = 0;
-            foreach (var num in numbers)
+            foreach (ComplexNumber num in numbers)
             {
                 sumReal += num.real;
                 sumImaginary += num.imaginary;
@@ -140,26 +124,26 @@ namespace OOP_lab_3
 
             // In danh sách số phức
             Console.WriteLine("Danh sách số phức:");
-            foreach (var c in complexNumbers)
+            foreach (ComplexNumber c in complexNumbers)
             {
                 c.Print();
             }
 
             // Kiểm tra phép toán
             Console.WriteLine("\nPhép toán cộng hai số phức:");
-            (complexNumbers[0] + complexNumbers[1]).Print();
+            complexNumbers[0].Add(complexNumbers[1]).Print();
 
             Console.WriteLine("\nPhép toán trừ hai số phức:");
-            (complexNumbers[0] - complexNumbers[1]).Print();
+            complexNumbers[0].Subtract(complexNumbers[1]).Print();
 
             Console.WriteLine("\nPhép toán nhân hai số phức:");
-            (complexNumbers[0] * complexNumbers[2]).Print();
+            complexNumbers[0].Multiply(complexNumbers[2]).Print();
 
             Console.WriteLine("\nPhép toán chia hai số phức:");
-            (complexNumbers[0] / complexNumbers[2]).Print();
+            complexNumbers[0].Divide(complexNumbers[2]).Print();
 
             Console.WriteLine("\nModule của số phức đầu tiên:");
-            Console.WriteLine(complexNumbers[0].Magnitude());
+            Console.WriteLine(complexNumbers[0].Module());
 
             Console.WriteLine("\nArgument của số phức đầu tiên:");
             Console.WriteLine(complexNumbers[0].Argument());

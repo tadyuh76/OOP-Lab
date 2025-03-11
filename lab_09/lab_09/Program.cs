@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace lab_09
 {
     // Custom exceptions
@@ -25,14 +21,23 @@ namespace lab_09
         public int Fertilizer { get; protected set; }
         public int Water { get; protected set; }
         public bool IsPlanted { get; protected set; }
+        public bool GrowthStarted { get; protected set; } // New property to track if growth has started
         public string Name { get; protected set; } = null!;
-        public string Emoji { get; protected set; } = null!;
+        // Removed Emoji property
 
         public virtual void Seed()
         {
-            StartTime = DateTime.Now;
             IsPlanted = true;
+            GrowthStarted = false; // Initialize growth as not started
             Console.WriteLine($"{Name} has been planted!");
+        }
+
+        // Method to start growth timer after watering and fertilizing
+        public virtual void StartGrowth()
+        {
+            StartTime = DateTime.Now;
+            GrowthStarted = true;
+            Console.WriteLine($"{Name} has started growing!");
         }
 
         public virtual int Harvest()
@@ -40,6 +45,11 @@ namespace lab_09
             if (!IsPlanted)
             {
                 throw new InvalidOperationException($"Cannot harvest {Name} that hasn't been planted yet");
+            }
+
+            if (!GrowthStarted)
+            {
+                throw new NotReadyToHarvestException($"{Name} hasn't started growing yet! Water and fertilize it first.");
             }
 
             if (DateTime.Now - StartTime < Duration)
@@ -53,7 +63,7 @@ namespace lab_09
 
         public bool IsReadyToHarvest()
         {
-            return IsPlanted && (DateTime.Now - StartTime >= Duration);
+            return IsPlanted && GrowthStarted && (DateTime.Now - StartTime >= Duration);
         }
     }
 
@@ -68,10 +78,9 @@ namespace lab_09
         public Wheat()
         {
             Name = "Wheat";
-            Emoji = "🌾";
             Cost = 10;
             Value = 25;
-            Duration = TimeSpan.FromSeconds(10); // For demonstration, use 10 seconds
+            Duration = TimeSpan.FromSeconds(20); // For demonstration, use 10 seconds
             Fertilizer = 5;
             Water = 3;
             MaxFertilizer = 3;
@@ -99,7 +108,10 @@ namespace lab_09
 
             NumFertilizer++;
             Value += 8; // Increase value with each fertilizer application
-            Console.WriteLine($"Wheat {Emoji} fertilized ({NumFertilizer}/{MaxFertilizer})");
+            Console.WriteLine($"Wheat fertilized ({NumFertilizer}/{MaxFertilizer})");
+
+            // Check if we should start growth timer
+            CheckAndStartGrowth();
         }
 
         public void ProvWater()
@@ -121,7 +133,18 @@ namespace lab_09
 
             NumWater++;
             Value += 5; // Increase value with each watering
-            Console.WriteLine($"Wheat {Emoji} watered ({NumWater}/{MaxWater})");
+            Console.WriteLine($"Wheat watered ({NumWater}/{MaxWater})");
+
+            // Check if we should start growth timer
+            CheckAndStartGrowth();
+        }
+
+        private void CheckAndStartGrowth()
+        {
+            if (!GrowthStarted && NumWater >= 1 && NumFertilizer >= 1)
+            {
+                StartGrowth();
+            }
         }
     }
 
@@ -135,10 +158,9 @@ namespace lab_09
         public Tomato()
         {
             Name = "Tomato";
-            Emoji = "🍅";
             Cost = 20;
             Value = 45;
-            Duration = TimeSpan.FromSeconds(15); // For demonstration, use 15 seconds
+            Duration = TimeSpan.FromSeconds(25); // For demonstration, use 15 seconds
             Fertilizer = 8;
             Water = 6;
             MaxFertilizer = 4;
@@ -166,7 +188,10 @@ namespace lab_09
 
             NumFertilizer++;
             Value += 10; // Increase value with each fertilizer application
-            Console.WriteLine($"Tomato {Emoji} fertilized ({NumFertilizer}/{MaxFertilizer})");
+            Console.WriteLine($"Tomato fertilized ({NumFertilizer}/{MaxFertilizer})");
+
+            // Check if we should start growth timer
+            CheckAndStartGrowth();
         }
 
         public void ProvWater()
@@ -188,7 +213,18 @@ namespace lab_09
 
             NumWater++;
             Value += 8; // Increase value with each watering
-            Console.WriteLine($"Tomato {Emoji} watered ({NumWater}/{MaxWater})");
+            Console.WriteLine($"Tomato watered ({NumWater}/{MaxWater})");
+
+            // Check if we should start growth timer
+            CheckAndStartGrowth();
+        }
+
+        private void CheckAndStartGrowth()
+        {
+            if (!GrowthStarted && NumWater >= 1 && NumFertilizer >= 1)
+            {
+                StartGrowth();
+            }
         }
     }
 
@@ -202,10 +238,9 @@ namespace lab_09
         public Sunflower()
         {
             Name = "Sunflower";
-            Emoji = "🌻";
             Cost = 30;
             Value = 70;
-            Duration = TimeSpan.FromSeconds(20); // For demonstration, use 20 seconds
+            Duration = TimeSpan.FromSeconds(30); // For demonstration, use 20 seconds
             Fertilizer = 10;
             Water = 8;
             MaxFertilizer = 5;
@@ -233,7 +268,10 @@ namespace lab_09
 
             NumFertilizer++;
             Value += 13; // Increase value with each fertilizer application
-            Console.WriteLine($"Sunflower {Emoji} fertilized ({NumFertilizer}/{MaxFertilizer})");
+            Console.WriteLine($"Sunflower fertilized ({NumFertilizer}/{MaxFertilizer})");
+
+            // Check if we should start growth timer
+            CheckAndStartGrowth();
         }
 
         public void ProvWater()
@@ -255,7 +293,18 @@ namespace lab_09
 
             NumWater++;
             Value += 9; // Increase value with each watering
-            Console.WriteLine($"Sunflower {Emoji} watered ({NumWater}/{MaxWater})");
+            Console.WriteLine($"Sunflower watered ({NumWater}/{MaxWater})");
+
+            // Check if we should start growth timer
+            CheckAndStartGrowth();
+        }
+
+        private void CheckAndStartGrowth()
+        {
+            if (!GrowthStarted && NumWater >= 1 && NumFertilizer >= 1)
+            {
+                StartGrowth();
+            }
         }
     }
 
@@ -411,11 +460,40 @@ namespace lab_09
                 for (int i = 0; i < Crops.Count; i++)
                 {
                     Product crop = Crops[i];
-                    TimeSpan timeGrown = DateTime.Now - crop.StartTime;
-                    double progress = Math.Min(100, (timeGrown.TotalSeconds / crop.Duration.TotalSeconds) * 100);
+                    string growthStatus;
 
-                    Console.WriteLine($"{i}. {crop.Emoji} {crop.GetType().Name} - Growth: {progress:F1}% " +
-                                     (progress >= 100 ? "(Ready to harvest! 🌟)" : $"({crop.Duration.TotalSeconds - timeGrown.TotalSeconds:F1} seconds left)"));
+                    if (!crop.GrowthStarted)
+                    {
+                        // For crops that haven't started growing yet
+                        growthStatus = "Not growing yet - needs water and fertilizer!";
+                    }
+                    else
+                    {
+                        // For crops that have started growing
+                        TimeSpan timeGrown = DateTime.Now - crop.StartTime;
+                        double progress = Math.Min(100, (timeGrown.TotalSeconds / crop.Duration.TotalSeconds) * 100);
+                        growthStatus = $"Growth: {progress:F1}% " +
+                                       (progress >= 100 ? "(Ready to harvest!)" :
+                                        $"({crop.Duration.TotalSeconds - timeGrown.TotalSeconds:F1} seconds left)");
+                    }
+
+                    // Get crop type-specific information for display
+                    string careInfo = "";
+                    if (crop is Wheat wheat)
+                    {
+                        careInfo = $"[Water: {wheat.NumWater}/{wheat.MaxWater}, Fertilizer: {wheat.NumFertilizer}/{wheat.MaxFertilizer}]";
+                    }
+                    else if (crop is Tomato tomato)
+                    {
+                        careInfo = $"[Water: {tomato.NumWater}/{tomato.MaxWater}, Fertilizer: {tomato.NumFertilizer}/{tomato.MaxFertilizer}]";
+                    }
+                    else if (crop is Sunflower sunflower)
+                    {
+                        careInfo = $"[Water: {sunflower.NumWater}/{sunflower.MaxWater}, Fertilizer: {sunflower.NumFertilizer}/{sunflower.MaxFertilizer}]";
+                    }
+
+                    // Removed emoji from display
+                    Console.WriteLine($"{i}. {crop.GetType().Name} - {growthStatus} {careInfo}");
                 }
             }
             Console.WriteLine();
@@ -426,8 +504,9 @@ namespace lab_09
     {
         static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8; // Ensure proper emoji display
-            Console.WriteLine("Welcome to HarvestFarm! 🚜🌱");
+            // Removed UTF8 encoding since emojis are no longer used
+            Console.WriteLine("Welcome to HarvestFarm!");
+
             Console.Write("Enter your name: ");
             string playerName = Console.ReadLine() ?? "Player";
 
@@ -482,10 +561,11 @@ namespace lab_09
         {
             Console.WriteLine("\n--- Buy and Plant Menu ---");
             Console.WriteLine("Available crops:");
-            Console.WriteLine("1. 🌾 Wheat - Cost: 10, Growth time: 10 seconds");
-            Console.WriteLine("2. 🍅 Tomato - Cost: 20, Growth time: 15 seconds");
-            Console.WriteLine("3. 🌻 Sunflower - Cost: 30, Growth time: 20 seconds");
+            Console.WriteLine("1. Wheat - Cost: 10, Growth time: 20 seconds");
+            Console.WriteLine("2. Tomato - Cost: 20, Growth time: 25 seconds");
+            Console.WriteLine("3. Sunflower - Cost: 30, Growth time: 30 seconds");
             Console.WriteLine("4. Return to main menu");
+            Console.WriteLine("NOTE: All plants require both water and fertilizer to begin growing!");
             Console.Write("Your choice: ");
 
             if (!int.TryParse(Console.ReadLine(), out int choice))

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -311,12 +311,20 @@ namespace lab_09
                 throw new IndexOutOfRangeException("Invalid crop index");
             }
 
+            // First, check if the crop is ready to harvest
+            if (Crops[index].IsReadyToHarvest())
+            {
+                throw new InvalidOperationException($"Cannot fertilize {Crops[index].Name} that is ready to harvest");
+            }
+
             if (Crops[index] is Wheat wheat)
             {
                 if (Reward < wheat.Fertilizer)
                 {
                     throw new InsufficientFundsException("Not enough funds to fertilize wheat");
                 }
+
+                // Only deduct points and call Feed() if all checks pass
                 Reward -= wheat.Fertilizer;
                 wheat.Feed();
             }
@@ -326,6 +334,8 @@ namespace lab_09
                 {
                     throw new InsufficientFundsException("Not enough funds to fertilize tomato");
                 }
+
+                // Fix the order: deduct points before calling Feed()
                 Reward -= tomato.Fertilizer;
                 tomato.Feed();
             }
@@ -335,6 +345,7 @@ namespace lab_09
                 {
                     throw new InsufficientFundsException("Not enough funds to fertilize sunflower");
                 }
+
                 Reward -= sunflower.Fertilizer;
                 sunflower.Feed();
             }
@@ -347,12 +358,19 @@ namespace lab_09
                 throw new IndexOutOfRangeException("Invalid crop index");
             }
 
+            // First, check if the crop is ready to harvest
+            if (Crops[index].IsReadyToHarvest())
+            {
+                throw new InvalidOperationException($"Cannot water {Crops[index].Name} that is ready to harvest");
+            }
+
             if (Crops[index] is Wheat wheat)
             {
                 if (Reward < wheat.Water)
                 {
                     throw new InsufficientFundsException("Not enough funds to water wheat");
                 }
+
                 Reward -= wheat.Water;
                 wheat.ProvWater();
             }
@@ -362,6 +380,7 @@ namespace lab_09
                 {
                     throw new InsufficientFundsException("Not enough funds to water tomato");
                 }
+
                 Reward -= tomato.Water;
                 tomato.ProvWater();
             }
@@ -371,6 +390,7 @@ namespace lab_09
                 {
                     throw new InsufficientFundsException("Not enough funds to water sunflower");
                 }
+
                 Reward -= sunflower.Water;
                 sunflower.ProvWater();
             }

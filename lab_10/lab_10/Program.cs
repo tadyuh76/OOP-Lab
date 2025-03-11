@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-
 namespace lab_10
 {
     // Event arguments classes
@@ -140,7 +139,7 @@ namespace lab_10
         {
             try
             {
-                var options = new JsonSerializerOptions
+                JsonSerializerOptions options = new JsonSerializerOptions
                 {
                     WriteIndented = true,
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -164,12 +163,12 @@ namespace lab_10
                 if (File.Exists(FILE_PATH))
                 {
                     string jsonString = File.ReadAllText(FILE_PATH);
-                    var options = new JsonSerializerOptions
+                    JsonSerializerOptions options = new JsonSerializerOptions
                     {
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                     };
 
-                    var accounts = JsonSerializer.Deserialize<List<Account>>(jsonString, options);
+                    List<Account>? accounts = JsonSerializer.Deserialize<List<Account>>(jsonString, options);
                     Console.WriteLine($"Accounts loaded successfully from {FILE_PATH}");
                     return accounts ?? new List<Account>();
                 }

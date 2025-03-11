@@ -1,4 +1,4 @@
-﻿namespace lab_10
+namespace lab_10
 {
     // Event arguments classes
     public class TransactionEventArgs : EventArgs
@@ -149,13 +149,13 @@
             Console.WriteLine("=============================");
 
             // Create notification service
-            var notificationService = new NotificationService();
+            NotificationService notificationService = new NotificationService();
 
             // Create accounts through user input
-            var accounts = CreateAccounts();
+            List<Account> accounts = CreateAccounts();
 
             // Subscribe all accounts to notification service
-            foreach (var account in accounts)
+            foreach (Account account in accounts)
             {
                 notificationService.Subscribe(account);
             }
@@ -190,7 +190,7 @@
                     Console.WriteLine("Invalid amount, setting initial balance to 0.");
                 }
 
-                var account = new Account(accountNumber, ownerName, phoneNumber, initialBalance);
+                Account account = new Account(accountNumber, ownerName, phoneNumber, initialBalance);
                 accounts.Add(account);
                 Console.WriteLine($"\nAccount created successfully for {ownerName}");
 
@@ -220,7 +220,7 @@
                     switch (choice)
                     {
                         case 1:
-                            var selectedAccount = SelectAccount(accounts);
+                            Account selectedAccount = SelectAccount(accounts);
                             if (selectedAccount != null)
                             {
                                 AccountMenu(selectedAccount, accounts);
@@ -372,7 +372,7 @@
         {
             // First, list all possible recipient accounts except the source account
             Console.WriteLine("\nSelect recipient account:");
-            var recipientOptions = allAccounts.Where(acc => acc.AccountNumber != sourceAccount.AccountNumber).ToList();
+            List<Account>? recipientOptions = allAccounts.Where(acc => acc.AccountNumber != sourceAccount.AccountNumber).ToList();
 
             if (recipientOptions.Count == 0)
             {
@@ -389,7 +389,7 @@
             if (int.TryParse(Console.ReadLine(), out int recipientIndex) &&
                 recipientIndex >= 1 && recipientIndex <= recipientOptions.Count)
             {
-                var recipientAccount = recipientOptions[recipientIndex - 1];
+                Account? recipientAccount = recipientOptions[recipientIndex - 1];
 
                 Console.Write("\nEnter amount to transfer: ");
                 if (decimal.TryParse(Console.ReadLine(), out decimal amount))

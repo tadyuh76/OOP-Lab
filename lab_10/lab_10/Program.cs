@@ -1,3 +1,7 @@
+using System.Text.Json.Serialization;
+using System.Text.Json;
+
+
 namespace lab_10
 {
     // Event arguments classes
@@ -31,9 +35,13 @@ namespace lab_10
     // Account class to represent a bank account
     public class Account
     {
+        [JsonInclude]
         public string AccountNumber { get; private set; }
+        [JsonInclude]
         public string OwnerName { get; set; }
+        [JsonInclude]
         public string PhoneNumber { get; set; }
+        [JsonInclude] 
         public decimal Balance { get; private set; }
 
         // Delegate definitions
@@ -44,6 +52,16 @@ namespace lab_10
         public event TransactionHandler WithdrawalCompleted;
         public event TransferHandler TransferCompleted;
 
+        // Parameterless constructor for JSON deserialization
+        public Account()
+        {
+            AccountNumber = "";
+            OwnerName = "";
+            PhoneNumber = "";
+            Balance = 0;
+        }
+
+
         public Account(string accountNumber, string ownerName, string phoneNumber, decimal initialBalance = 0)
         {
             AccountNumber = accountNumber;
@@ -51,6 +69,13 @@ namespace lab_10
             PhoneNumber = phoneNumber;
             Balance = initialBalance;
         }
+
+        // Set Balance for deserialization
+        public void SetBalance(decimal balance)
+        {
+            Balance = balance;
+        }
+
 
         public void Deposit(decimal amount)
         {
@@ -105,6 +130,64 @@ namespace lab_10
         }
     }
 
+    // Account data management class
+    public static class AccountDataManager
+    {
+        private const string FILE_PATH = "accounts.json";
+
+        // Save accounts to JSON file
+        public static void SaveAccounts(List<Account> accounts)
+        {
+            try
+            {
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                };
+
+                string jsonString = JsonSerializer.Serialize(accounts, options);
+                File.WriteAllText(FILE_PATH, jsonString);
+                Console.WriteLine($"Accounts saved successfully to {FILE_PATH}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving accounts: {ex.Message}");
+            }
+        }
+
+        // Load accounts from JSON file
+        public static List<Account> LoadAccounts()
+        {
+            try
+            {
+                if (File.Exists(FILE_PATH))
+                {
+                    string jsonString = File.ReadAllText(FILE_PATH);
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    };
+
+                    var accounts = JsonSerializer.Deserialize<List<Account>>(jsonString, options);
+                    Console.WriteLine($"Accounts loaded successfully from {FILE_PATH}");
+                    return accounts ?? new List<Account>();
+                }
+                else
+                {
+                    Console.WriteLine("No saved accounts found. Starting with empty list.");
+                    return new List<Account>();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading accounts: {ex.Message}");
+                return new List<Account>();
+            }
+        }
+    }
+
+
     // Notification service to send SMS notifications
     public class NotificationService
     {
@@ -151,8 +234,14 @@ namespace lab_10
             // Create notification service
             NotificationService notificationService = new NotificationService();
 
-            // Create accounts through user input
-            List<Account> accounts = CreateAccounts();
+            // Try to load accounts from file first
+            List<Account> accounts = AccountDataManager.LoadAccounts();
+
+            // If no accounts were loaded, create new ones
+            if (accounts.Count == 0)
+            {
+                accounts = CreateAccounts();
+            }
 
             // Subscribe all accounts to notification service
             foreach (Account account in accounts)
@@ -162,46 +251,13 @@ namespace lab_10
 
             // Run the main menu
             RunMainMenu(accounts);
+
+            // Save accounts before exiting
+            AccountDataManager.SaveAccounts(accounts);
         }
 
-        static List<Account> CreateAccounts()
-        {
-            List<Account> accounts = new List<Account>();
-            bool addingAccounts = true;
 
-            while (addingAccounts)
-            {
-                Console.WriteLine("\nCreate a new account");
-                Console.WriteLine("--------------------");
-
-                Console.Write("Enter account number: ");
-                string accountNumber = Console.ReadLine();
-
-                Console.Write("Enter account owner name: ");
-                string ownerName = Console.ReadLine();
-
-                Console.Write("Enter phone number: ");
-                string phoneNumber = Console.ReadLine();
-
-                Console.Write("Enter initial balance amount: ");
-                if (!decimal.TryParse(Console.ReadLine(), out decimal initialBalance))
-                {
-                    initialBalance = 0;
-                    Console.WriteLine("Invalid amount, setting initial balance to 0.");
-                }
-
-                Account account = new Account(accountNumber, ownerName, phoneNumber, initialBalance);
-                accounts.Add(account);
-                Console.WriteLine($"\nAccount created successfully for {ownerName}");
-
-                Console.Write("\nDo you want to add another account? (yes/no): ");
-                string response = Console.ReadLine().Trim().ToLower();
-                addingAccounts = (response == "yes" || response == "y");
-            }
-
-            return accounts;
-        }
-
+        // Add "Save Accounts" option to the main menu
         static void RunMainMenu(List<Account> accounts)
         {
             bool exit = false;
@@ -212,8 +268,10 @@ namespace lab_10
                 Console.WriteLine("\nATM Account Management System");
                 Console.WriteLine("=============================");
                 Console.WriteLine("1. Select an account");
-                Console.WriteLine("2. Exit");
-                Console.Write("\nEnter your choice (1-2): ");
+                Console.WriteLine("2. Create a new account");
+                Console.WriteLine("3. Save accounts");
+                Console.WriteLine("4. Exit");
+                Console.Write("\nEnter your choice (1-4): ");
 
                 if (int.TryParse(Console.ReadLine(), out int choice))
                 {
@@ -227,7 +285,21 @@ namespace lab_10
                             }
                             break;
                         case 2:
+                            Account newAccount = CreateSingleAccount();
+                            if (newAccount != null)
+                            {
+                                accounts.Add(newAccount);
+                                Console.WriteLine($"\nAccount created successfully for {newAccount.OwnerName}");
+                                WaitForKeyPress();
+                            }
+                            break;
+                        case 3:
+                            AccountDataManager.SaveAccounts(accounts);
+                            WaitForKeyPress();
+                            break;
+                        case 4:
                             exit = true;
+                            AccountDataManager.SaveAccounts(accounts); // Save on exit
                             Console.WriteLine("Thank you for using our ATM service!");
                             break;
                         default:
@@ -243,6 +315,53 @@ namespace lab_10
                 }
             }
         }
+
+        // Method to create a single account
+        static Account CreateSingleAccount()
+        {
+            Console.WriteLine("\nCreate a new account");
+            Console.WriteLine("--------------------");
+
+            Console.Write("Enter account number: ");
+            string accountNumber = Console.ReadLine();
+
+            Console.Write("Enter account owner name: ");
+            string ownerName = Console.ReadLine();
+
+            Console.Write("Enter phone number: ");
+            string phoneNumber = Console.ReadLine();
+
+            Console.Write("Enter initial balance amount: ");
+            if (!decimal.TryParse(Console.ReadLine(), out decimal initialBalance))
+            {
+                initialBalance = 0;
+                Console.WriteLine("Invalid amount, setting initial balance to 0.");
+            }
+
+            return new Account(accountNumber, ownerName, phoneNumber, initialBalance);
+        }
+
+        // Modified CreateAccounts to use the new CreateSingleAccount method
+        static List<Account> CreateAccounts()
+        {
+            List<Account> accounts = new List<Account>();
+            bool addingAccounts = true;
+
+            while (addingAccounts)
+            {
+                Account account = CreateSingleAccount();
+                accounts.Add(account);
+                Console.WriteLine($"\nAccount created successfully for {account.OwnerName}");
+
+                Console.Write("\nDo you want to add another account? (yes/no): ");
+                string response = Console.ReadLine().Trim().ToLower();
+                addingAccounts = (response == "yes" || response == "y");
+            }
+
+            return accounts;
+        }
+
+
 
         static Account SelectAccount(List<Account> accounts)
         {
